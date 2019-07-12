@@ -1,0 +1,24 @@
+/__FILES
+/logs
+node_modules
+
+# Ignore all wordpress files except for our custom theme
+app/*
+!app/public/
+app/public/*
+!app/public/wp-content/
+app/public/wp-content/*
+!app/public/wp-content/themes/
+app/public/wp-content/themes/*
+!app/public/wp-content/themes/api/
+app/public/wp-content/themes/api/node_modules
+app/public/wp-content/themes/api/vendor
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.DS_Store

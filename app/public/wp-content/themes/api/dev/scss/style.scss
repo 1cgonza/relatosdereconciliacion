@@ -1,0 +1,51 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+body {
+  background-image: url('../img/fondo.jpg');
+  background-size: cover;
+}
+
+a, a:visited {
+  color: #414040;
+  text-decoration: none;
+  transition: all 0.25s ease-in-out;
+
+  &:hover, &:focus {
+    color: lighten(#414040, 20%);
+  }
+}
+
+#header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  .logo {
+    width: 300px;
+    
+  }
+}
+
+.mainBtn {
+  border: 1px dotted;
+  padding: .3em;
+}
+
+.extUrl {
+  font-size: .9em;
+}

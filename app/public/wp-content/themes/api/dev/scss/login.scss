@@ -1,0 +1,80 @@
+.login {
+  text-align: center;
+  background: white;
+
+  h1 {
+    display: none;
+  }
+
+  form {
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+
+    input {
+      font-size: 1em !important;
+      border: 1px solid #CCC;
+      box-shadow: none;
+      color: black;
+
+      &.input {
+        border: 1px dotted black;
+        padding: 0.5em;
+
+        &:focus {
+          border: 1px solid;
+        }
+      }
+
+      &:focus {
+        outline: 0;
+        box-shadow: none;
+        border-color: black;
+      }
+
+
+      &[type=checkbox]:checked:before {
+        color: black;
+      }
+    }
+
+    label {
+      font-size: 0.9em;
+      color: #383838;
+    }
+
+    .button-primary {
+      border-radius: 0;
+      box-shadow: none;
+      background: black;
+      text-shadow: none;
+      border: 0;
+
+      &:hover {
+        background: lighten(black, 20%);
+      }
+
+      &:focus {
+        outline: 0;
+        box-shadow: none;
+        border: 0;
+        color: black;
+        background: lighten(black, 70%);
+      }
+
+      &:active {
+        background: black;
+        box-shadow: none;
+        border: 0;
+        vertical-align: inherit;
+        transform: none;
+      }
+    }
+  }
+
+  .message, #login_error {
+    border: 0;
+    box-shadow: none;
+    background-color: transparent;
+  }
+}

@@ -1,0 +1,55 @@
+@mixin translate($x, $y) {
+  -webkit-transform: translate($x, $y);
+     -moz-transform: translate($x, $y);
+       -o-transform: translate($x, $y);
+          transform: translate($x, $y);
+}
+
+@mixin transition($prop:all, $duration:0.2s, $ease:ease-in-out) {
+  -webkit-transition: $prop $duration $ease;
+  -moz-transition:    $prop $duration $ease;
+  -o-transition:      $prop $duration $ease;
+  -ms-transition:     $prop $duration $ease;
+  transition:         $prop $duration $ease;
+}
+
+@mixin blink($time, $opacity) {
+  -webkit-animation-name: blink;
+     -moz-animation-name: blink;
+       -o-animation-name: blink;
+          animation-name: blink;
+  -webktit-animation-timing-function: linear;
+      -moz-animation-timing-function: linear;
+        -o-animation-timing-function: linear;
+           animation-timing-function: linear;
+  -webkit-animation-duration: $time;
+     -moz-animation-duration: $time;
+       -o-animation-duration: $time;
+          animation-duration: $time;
+
+  -webkit-animation-iteration-count: infinite;
+     -moz-animation-iteration-count: infinite;
+       -o-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+
+  @-webkit-keyframes blink {
+    50% {
+      opacity: $opacity;
+    }
+  }
+  @-moz-keyframes blink {
+    50% {
+      opacity: $opacity;
+    }
+  }
+  @-o-keyframes blink {
+    50% {
+      opacity: $opacity;
+    }
+  }
+  @keyframes blink {
+    50% {
+      opacity: $opacity;
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "require": {
+    "benlipp/srt-parser": "^1.1"
+  }
+}

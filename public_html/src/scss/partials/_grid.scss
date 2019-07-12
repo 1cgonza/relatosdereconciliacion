@@ -1,0 +1,219 @@
+.gridWrapper {
+  display: flex;
+  display: -webkit-flex;        
+  display: -ms-flexbox;     
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.gridWrapperMiddle {
+  display: flex;
+  align-items: center;
+}
+
+.gridJustifyCenter {
+  justify-content: center;
+}
+
+.gridJustifySpaceBetween {
+  justify-content: space-between;
+}
+
+.gridJustifySpaceEvenly {
+  justify-content: space-evenly;
+}
+
+/*==============================
+=            MOBILE            =
+==============================*/
+@media (max-width: 767px) {
+  .m-100 {
+    width: 100%;
+  }
+
+  .m-90 {
+    width: 90%;
+  }
+
+  .m-80 {
+    width: 80%;
+  }
+
+  .m-70 {
+    width: 70%;
+  }
+
+  .m-60 {
+    width: 60%;
+  }
+
+  .m-50 {
+    width: 50%;
+  }
+
+  .m-40 {
+    width: 40%;
+  }
+
+  .m-30 {
+    width: 40%;
+  }
+
+  .m-20 {
+    width: 40%;
+  }
+
+  .m-10 {
+    width: 40%;
+  }
+}
+
+/*-----  End of MOBILE  ------*/
+
+/*==============================
+=            TABLET            =
+==============================*/
+@media (min-width: 768px) and (max-width: 1029px) {
+  .t-100 {
+    width: 100%;
+  }
+
+  .t-90 {
+    width: 90%;
+  }
+
+  .t-80 {
+    width: 80%;
+  }
+
+  .t-70 {
+    width: 70%;
+  }
+
+  .t-60 {
+    width: 60%;
+  }
+
+  .t-50 {
+    width: 50%;
+  }
+
+  .t-40 {
+    width: 40%;
+  }
+
+  .t-30 {
+    width: 30%;
+  }
+
+  .t-20 {
+    width: 20%;
+  }
+
+  .t-10 {
+    width: 10%;
+  }
+}
+
+/*-----  End of TABLET  ------*/
+
+/*===============================
+=            DESKTOP            =
+===============================*/
+@media (min-width: 1030px) and (max-width: 1239px) {
+  .d-100 {
+    width: 100%;
+  }
+
+  .d-90 {
+    width: 90%;
+  }
+
+  .d-80 {
+    width: 80%;
+  }
+
+  .d-70 {
+    width: 70%;
+  }
+
+  .d-65 {
+    width: 65%;
+  }
+
+  .d-60 {
+    width: 60%;
+  }
+
+  .d-50 {
+    width: 50%;
+  }
+
+  .d-40 {
+    width: 40%;
+  }
+
+  .d-30 {
+    width: 30%;
+  }
+
+  .d-20 {
+    width: 20%;
+  }
+
+  .d-10 {
+    width: 10%;
+  }
+}
+
+/*-----  End of DESKTOP  ------*/
+
+/*=====================================
+=            LARGE DESKTOP            =
+=====================================*/
+@media (min-width: 1240px) {
+  .ld-100 {
+    width: 100%;
+  }
+
+  .ld-90 {
+    width: 90%;
+  }
+
+  .ld-80 {
+    width: 80%;
+  }
+
+  .ld-70 {
+    width: 70%;
+  }
+
+  .ld-65 {
+    width: 65%;
+  }
+
+  .ld-60 {
+    width: 60%;
+  }
+
+  .ld-50 {
+    width: 50%;
+  }
+
+  .ld-40 {
+    width: 40%;
+  }
+
+  .ld-30 {
+    width: 30%;
+  }
+
+  .ld-20 {
+    width: 20%;
+  }
+
+  .ld-10 {
+    width: 10%;
+  }
+}
+/*-----  End of LARGE DESKTOP  ------*/

@@ -1,0 +1,120 @@
+1
+00:00:00,000 --> 00:00:36,320
+dibujoAnimado, Acuarela, cutOut
+
+2
+00:00:36,680 --> 00:00:48,920
+rotoscopia,
+
+3
+00:00:49,200 --> 00:00:57,800
+3D, dibujoAnimado,
+
+4
+00:00:57,800 --> 00:01:07,880
+Cut out, dibujoAnimado
+
+5
+00:01:08,120 --> 00:01:12,760
+rotoscopia,
+
+6
+00:01:13,160 --> 00:01:32,400
+Cut out, dibujo animado,
+
+7
+00:01:32,680 --> 00:01:44,960
+Dibujo animado, 3D, acuarela
+
+8
+00:01:45,200 --> 00:01:50,560
+Video,
+
+9
+00:01:50,560 --> 00:01:59,960
+3D, acuarela,, dibujo animado
+
+10
+00:02:00,280 --> 00:02:03,840
+Dibujo Animado
+
+11
+00:02:03,880 --> 00:02:14,600
+Cut out, dibujo animado
+
+12
+00:02:14,880 --> 00:02:23,400
+Dibujo animado, acuarela
+
+13
+00:02:23,840 --> 00:02:35,680
+Arena, técnicas directas
+
+14
+00:02:36,400 --> 00:02:54,160
+dibujo animado
+
+15
+00:02:54,640 --> 00:03:02,560
+Rotoscopia
+
+16
+00:03:02,720 --> 00:03:14,000
+Dibujo animado
+
+17
+00:03:14,000 --> 00:03:33,580
+rotoscopia
+
+18
+00:03:33,620 --> 00:03:51,500
+Dibujo animado
+
+19
+00:03:51,660 --> 00:04:25,740
+Cut out, Dibujo animado
+
+20
+00:04:25,860 --> 00:04:36,140
+Rotoscopia
+
+21
+00:04:36,300 --> 00:05:03,360
+Dibujo animado
+
+22
+00:05:03,520 --> 00:05:10,500
+Rotoscopia
+
+23
+00:05:10,740 --> 00:05:24,400
+Dibujo animado
+
+24
+00:05:24,440 --> 00:05:37,320
+Rotoscopia
+
+25
+00:05:37,380 --> 00:06:00,220
+Cut out
+
+26
+00:06:00,360 --> 00:06:08,200
+Rotoscopia
+
+27
+00:06:08,420 --> 00:06:27,540
+Dibujo animado, cut out, acuarela
+
+28
+00:06:27,840 --> 00:06:32,000
+Cut out
+
+29
+00:06:32,160 --> 00:07:16,180
+Dibujo animado, Stop motion, telas
+
+30
+00:07:16,300 --> 00:08:06,120
+Stop motion, telas , 3D
+
