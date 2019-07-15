@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import DataStore from '../../stores/DataStore';
-import Video from './Video';
-import RiverColors from './graphics/RiverColors';
 import Tree from './Tree';
+import Video from './Video';
+import Docs from './Docs';
+import RiverColors from './graphics/RiverColors';
 import Bosque from './graphics/Bosque';
 import Flock from './graphics/Flock';
-import Docs from '../Project/Docs';
 
 export default class Project extends Component {
   constructor(props) {

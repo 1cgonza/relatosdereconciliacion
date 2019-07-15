@@ -8,16 +8,16 @@ import {
   withRouter,
   Link
 } from 'react-router-dom';
+import Four04 from './components/404';
+import Footer from './components/Footer';
 import Landing from './components/Landing';
 import Feature from './components/Feature';
+import Header from './components/Interactive/Header';
+import MainMenu from './components/Interactive/ui/MainMenu';
 import Home from './components/Interactive/Home';
 import Project from './components/Interactive/Project';
-import Player from './components/Player';
-import Four04 from './components/404';
+import Player from './components/Interactive/Player';
 import DataActions from './actions/DataActions';
-import Header from './components/Interactive/Header';
-import Footer from './components/Footer';
-import MainMenu from './components/Interactive/ui/MainMenu';
 
 class Brain extends Component {
   constructor(props) {

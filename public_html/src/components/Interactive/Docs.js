@@ -49,10 +49,10 @@ export default class Docs extends Component {
   }
 
   render() {
-    let project = this.props.project;
-    let synosis = this.buildSynopsis(project.synopsis);
-    let transcript = this.buildTranscript(project.transcript);
-    let gallery = this.buildGallery(project.gallery);
+    const project = this.props.project;
+    const synosis = this.buildSynopsis(project.synopsis);
+    const transcript = this.buildTranscript(project.transcript);
+    const gallery = this.buildGallery(project.gallery);
 
     return (
       <section id='info' className='projectSection sectionDocs'>
