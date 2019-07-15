@@ -10,7 +10,7 @@ export default class Player extends Component {
       const name = theme.name;
       const stepX = stageW / theme.longest;
       const stepY = 140 / theme.projects.length;
-      console.log(stepX, stepY);
+
       return theme.projects.map((project, line) => {
         const y = `${line * stepY}px`;
 

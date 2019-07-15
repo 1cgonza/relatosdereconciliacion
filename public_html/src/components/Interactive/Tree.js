@@ -74,7 +74,6 @@ export default class Tree extends Component {
   }
 
   renderCanvas() {
-    console.log(this.loadedAssets >= this.state.totalAssets);
     if (this.loadedAssets >= this.state.totalAssets) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawTree();
