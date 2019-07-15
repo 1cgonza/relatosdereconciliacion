@@ -73,7 +73,23 @@ export default class TaxMenu extends React.Component {
     });
   }
 
-  getTaxMenu() {
+  componentDidMount() {
+    this.setState({
+      loaded: true
+    });
+
+    let taxonomies = DataStore.getTaxonomies();
+
+    taxonomies.violencia.forEach(tax => {
+      this.violenceRefs.push(`tax${tax.id}`);
+    });
+
+    taxonomies.tecnicas.forEach(tax => {
+      this.techRefs.push(`tax${tax.id}`);
+    });
+  }
+
+  render() {
     if (!this.state.loaded) {
       return null;
     }
@@ -104,25 +120,5 @@ export default class TaxMenu extends React.Component {
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    this.setState({
-      loaded: true
-    });
-
-    let taxonomies = DataStore.getTaxonomies();
-
-    taxonomies.violencia.forEach(tax => {
-      this.violenceRefs.push(`tax${tax.id}`);
-    });
-
-    taxonomies.tecnicas.forEach(tax => {
-      this.techRefs.push(`tax${tax.id}`);
-    });
-  }
-
-  render() {
-    return this.getTaxMenu();
   }
 }
