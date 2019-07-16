@@ -30,13 +30,10 @@ export default class Header extends Component {
         <div id='menuContent'>
           <div className='links'>
             <Link
-              to='/participa'
-              className='menuIcon participa'
+              to='/interactivo'
+              className='menuIcon home'
               onClick={this.onClick}
             >
-              Participa
-            </Link>
-            <Link to='/' className='menuIcon home' onClick={this.onClick}>
               Inicio
             </Link>
             <Link
@@ -45,6 +42,13 @@ export default class Header extends Component {
               onClick={this.onClick}
             >
               Relatos
+            </Link>
+            <Link
+              to='/participa'
+              className='menuIcon participa'
+              onClick={this.onClick}
+            >
+              Participa
             </Link>
           </div>
         </div>

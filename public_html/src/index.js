@@ -8,16 +8,16 @@ import {
   withRouter,
   Link
 } from 'react-router-dom';
-import Four04 from './components/404';
+import DataActions from './actions/DataActions';
+import Header from './components/Header';
 import Footer from './components/Footer';
 import Landing from './components/Landing';
 import Feature from './components/Feature';
-import Header from './components/Interactive/Header';
+import Four04 from './components/404';
 import MainMenu from './components/Interactive/ui/MainMenu';
 import Home from './components/Interactive/Home';
 import Project from './components/Interactive/Project';
 import Player from './components/Interactive/Player';
-import DataActions from './actions/DataActions';
 
 class Brain extends Component {
   constructor(props) {
@@ -66,8 +66,7 @@ class Brain extends Component {
     return (
       <BrowserRouter basename='/'>
         <div className='wrapper'>
-          <MainMenu />
-          <Link className='siteLogo' to='/' />
+          <HeaderRoute />
           <Switch>
             <Route exact path='/' component={Landing} />
             {projectsRoutes}
