@@ -6,8 +6,7 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false,
-      logoLoaded: false
+      isOpen: false
     };
   }
 
@@ -18,8 +17,8 @@ export default class Header extends Component {
   };
 
   render() {
-    const showMainMenu =
-      location.pathname === '/' || location.pathname === '/largometraje';
+    const pathname = location.pathname;
+    const showMainMenu = pathname === '/' || pathname === '/largometraje';
     const menu = !showMainMenu ? <MainMenu /> : null;
 
     return (
