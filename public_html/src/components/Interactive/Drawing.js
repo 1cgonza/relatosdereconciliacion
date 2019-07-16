@@ -55,6 +55,7 @@ export default class Drawing extends Component {
       let pad = 5;
       let totalW =
         this.refs.drawingContainer.clientWidth -
+        400 -
         pajaros.frames.length * (pad * 2);
       let frameW = totalW / pajaros.frames.length;
       let frameH = sizeFromPercentage(
