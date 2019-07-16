@@ -3,12 +3,14 @@
   position: fixed;
   top: 0;
   left: 0;
+
   #menuIcon {
     position: relative;
     display: block;
     padding: 25px;
     z-index: 2;
     cursor: pointer;
+
     span,
     span:before,
     span:after {
@@ -17,33 +19,39 @@
       background-color: #000;
       display: block;
     }
+
     span {
       position: relative;
       top: $menuT;
       transition-duration: 0s;
       transition-delay: 0.1s;
+
       &:before,
       &:after {
         position: absolute;
         content: '';
       }
+
       &:before {
         margin-top: -$menuT;
         transition-property: margin, transform;
         transition-duration: 0.25s;
       }
+
       &:after {
         margin-top: $menuT;
         transition-property: margin, transform;
         transition-duration: 0.25s;
       }
     }
+
     &:hover {
       span {
         &:before {
           margin-top: -$menuT + $menuLinesM;
           transition: 0.25s;
         }
+
         &:after {
           margin-top: $menuT - $menuLinesM;
           transition: 0.25s;
@@ -51,29 +59,35 @@
       }
     }
   }
+
   &.open {
     #menuIcon {
       span {
         background-color: rgba(0, 0, 0, 0);
         transition-delay: 0.02s;
+
         &:before,
         &:after {
           background-color: #fff;
         }
+
         &:before {
           margin-top: 0;
           transform: rotate(45deg);
         }
+
         &:after {
           margin-top: 0;
           transform: rotate(-45deg);
         }
       }
     }
+
     #menuContent {
       transform: translateX(0);
     }
   }
+
   #menuContent {
     position: absolute;
     top: 0;
@@ -83,25 +97,32 @@
     background: $darkBG;
     @include transition(all, 0.25s, ease-in-out);
     transform: translateX(-100%);
+
     &.open {
       left: 0;
     }
+
     a,
     a:visited {
       color: white;
+
       &:hover,
       &:focus {
         color: darken(white, 10%);
       }
+
       &:link {
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
       }
     }
+
     .links {
-      padding: 5em 0 0 3em;
+      padding: 5em 0 0 1.5em;
+
       .menuIcon {
         display: block;
         margin-bottom: 1em;
+
         &::before {
           content: '';
           display: inline-block;
@@ -112,16 +133,19 @@
           background-size: contain;
         }
       }
+
       .participa {
         &::before {
           background-image: url('/assets/ui/iconDraw.svg');
         }
       }
+
       .home {
         &::before {
           background-image: url('/assets/ui/iconHome.svg');
         }
       }
+
       .player {
         &::before {
           background-image: url('/assets/ui/iconPlay.svg');

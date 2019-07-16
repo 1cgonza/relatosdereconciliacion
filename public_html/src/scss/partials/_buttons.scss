@@ -18,10 +18,12 @@
   background: transparent;
   width: 50px;
   height: 50px;
+
   border: {
     top: 4px solid $textColor;
     left: 4px solid $textColor;
   }
+
   transition: all .15s ease-in-out;
   z-index: 10;
   cursor: pointer;
@@ -79,8 +81,8 @@ $playColor: darken($green, 50%);
 
 .play {
   display: block;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: $size solid transparent;
   border-bottom: $size solid transparent;
   border-left: ($size * $ratio) solid $playColor;
@@ -92,12 +94,12 @@ $playColor: darken($green, 50%);
   transition: all $transitionTime;
   cursor: pointer;
   opacity: 0.5;
-  
+
   &:before {
     content: '';
     position: absolute;
     top: ($size * -1.5);
-    left:($size * -2.3);
+    left: ($size * -2.3);
     bottom: ($size * -1.5);
     right: ($size * -0.7);
     border-radius: 50%;
@@ -106,7 +108,8 @@ $playColor: darken($green, 50%);
     transition: all $transitionTime;
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     &:before {
       transform: scale(1.1);
     }

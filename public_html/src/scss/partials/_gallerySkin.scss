@@ -27,11 +27,13 @@ figure {
   -webkit-text-size-adjust: 100%;
   -webkit-backface-visibility: hidden;
   outline: none;
+
   @if $pswp__box-sizing-border-box==true {
     * {
       box-sizing: border-box;
     }
   }
+
   img {
     max-width: none;
   }
@@ -139,6 +141,7 @@ figure {
 }
 
 .pswp--animated-in {
+
   .pswp__bg,
   .pswp__zoom-wrap {
     -webkit-transition: none;
@@ -231,14 +234,17 @@ figure {
   opacity: 0.75;
   transition: opacity 0.2s;
   box-shadow: none;
+
   &:focus,
   &:hover {
     opacity: 1;
   }
+
   &:active {
     outline: none;
     opacity: 0.9;
   }
+
   &::-moz-focus-inner {
     padding: 0;
     border: 0
@@ -263,12 +269,14 @@ figure {
 @media (-webkit-min-device-pixel-ratio: 1.1),
 (min-resolution: 105dpi),
 (min-resolution: 1.1dppx) {
+
   /* Serve SVG sprite if browser supports SVG and resolution is more than 105dpi */
   .pswp--svg .pswp__button,
   .pswp--svg .pswp__button--arrow--left:before,
   .pswp--svg .pswp__button--arrow--right:before {
     background-image: url(#{$pswp__assets-path}default-skin.svg);
   }
+
   .pswp--svg .pswp__button--arrow--left,
   .pswp--svg .pswp__button--arrow--right {
     background: none;
@@ -311,6 +319,7 @@ figure {
 /* no arrows on touch screens */
 
 .pswp--touch {
+
   .pswp__button--arrow--left,
   .pswp__button--arrow--right {
     visibility: hidden;
@@ -407,6 +416,7 @@ figure {
   transition: transform 0.25s;
   -webkit-backface-visibility: hidden;
   will-change: transform;
+
   a {
     display: block;
     padding: 8px 12px;
@@ -414,14 +424,17 @@ figure {
     text-decoration: none;
     font-size: 14px;
     line-height: 18px;
+
     &:hover {
       text-decoration: none;
       color: #000;
     }
+
     &:first-child {
       /* round corners on the first/last list item */
       border-radius: 2px 2px 0 0;
     }
+
     &:last-child {
       border-radius: 0 0 2px 2px;
     }
@@ -430,6 +443,7 @@ figure {
 
 .pswp__share-modal--fade-in {
   opacity: 1;
+
   .pswp__share-tooltip {
     transform: translateY(0);
   }
@@ -456,9 +470,11 @@ a.pswp__share--facebook {
     -moz-pointer-events: none;
     pointer-events: none;
   }
+
   &:hover {
     background: #3E5C9A;
     color: #FFF;
+
     &:before {
       border-bottom-color: #3E5C9A;
     }
@@ -515,6 +531,7 @@ a.pswp__share--download {
   bottom: 0;
   width: 100%;
   min-height: 44px;
+
   small {
     font-size: 11px;
     color: #BBB;
@@ -570,6 +587,7 @@ a.pswp__share--download {
 
 .pswp__preloader--active {
   opacity: 1;
+
   .pswp__preloader__icn {
     /* We use .gif in browsers that don't support CSS animation */
     background: url(#{$pswp__assets-path}preloader.gif) 0 0 no-repeat;
@@ -579,13 +597,16 @@ a.pswp__share--download {
 .pswp--css_animation {
   .pswp__preloader--active {
     opacity: 1;
+
     .pswp__preloader__icn {
       animation: clockwise 500ms linear infinite;
     }
+
     .pswp__preloader__donut {
       animation: donut-rotate 1000ms cubic-bezier(.4, 0, .22, 1) infinite;
     }
   }
+
   .pswp__preloader__icn {
     background: none;
     opacity: 0.75;
@@ -596,6 +617,7 @@ a.pswp__share--download {
     top: 15px;
     margin: 0;
   }
+
   .pswp__preloader__cut {
     /* 
 			The idea of animating inner circle is based on Polymer ("material") loading indicator 
@@ -606,6 +628,7 @@ a.pswp__share--download {
     height: 14px;
     overflow: hidden;
   }
+
   .pswp__preloader__donut {
     box-sizing: border-box;
     width: 14px;
@@ -636,6 +659,7 @@ a.pswp__share--download {
   0% {
     transform: rotate(0deg)
   }
+
   100% {
     transform: rotate(360deg)
   }
@@ -645,9 +669,11 @@ a.pswp__share--download {
   0% {
     transform: rotate(0)
   }
+
   50% {
     transform: rotate(-140deg)
   }
+
   100% {
     transform: rotate(0)
   }
@@ -690,6 +716,7 @@ a.pswp__share--download {
 /* pswp--has_mouse class is added only when two subsequent mousemove events occur */
 
 .pswp--has_mouse {
+
   .pswp__button--arrow--left,
   .pswp__button--arrow--right {
     visibility: visible;
@@ -704,6 +731,7 @@ a.pswp__share--download {
 /* pswp__ui--fit class is added when main image "fits" between top bar and bottom bar (caption) */
 
 .pswp__ui--fit {
+
   .pswp__top-bar,
   .pswp__caption {
     background-color: rgba(0, 0, 0, 0.3);
@@ -716,6 +744,7 @@ a.pswp__share--download {
   .pswp__top-bar {
     opacity: 0;
   }
+
   .pswp__button--arrow--left,
   .pswp__button--arrow--right {
     opacity: 0;
@@ -728,6 +757,7 @@ a.pswp__share--download {
 */
 
 .pswp__ui--hidden {
+
   .pswp__top-bar,
   .pswp__caption,
   .pswp__button--arrow--left,
@@ -740,6 +770,7 @@ a.pswp__share--download {
 /* pswp__ui--one-slide class is added when there is just one item in gallery */
 
 .pswp__ui--one-slide {
+
   .pswp__button--arrow--left,
   .pswp__button--arrow--right,
   .pswp__counter {
