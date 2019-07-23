@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import DataStore from '../../stores/DataStore';
 import Tree from './Tree';
 import Video from './Video';
 import Docs from './Docs';
+import GalleryUI from './ui/GalleryUI';
 import RiverColors from './graphics/RiverColors';
 import Bosque from './graphics/Bosque';
 import Flock from './graphics/Flock';
@@ -11,50 +12,72 @@ import Flock from './graphics/Flock';
 export default class Project extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      stage: 'tree'
+      switchTo: null
     };
   }
 
-  closeVideo = () => {
+  switchProject = slug => {
+    // this.props.history.push(`/${slug}`);
     this.setState({
-      playVideo: false
+      switchTo: slug
     });
   };
 
   getVideo(url) {
-    if (url) {
-      return (
-        <Video
-          playVideo={this.state.playVideo}
-          videoURL={url}
-          closeVideo={this.closeVideo}
-        />
-      );
-    }
-    return null;
+    if (!url) return null;
+    return (
+      <Video
+        slug={this.props.slug}
+        videoURL={url}
+        switchProject={this.switchProject}
+      />
+    );
+  }
+
+  getQuote(quote) {
+    if (!quote) return null;
+    return <p className='projectQuote'>{quote}</p>;
+  }
+
+  getArrows() {
+    const prevNext = DataStore.getPrevNextProjects(this.props.slug);
+
+    let next = prevNext.next ? (
+      <Link key='right' className='arrow arrowRight' to={`/${prevNext.next}`} />
+    ) : null;
+    let prev = prevNext.prev ? (
+      <Link key='prev' className='arrow arrowLeft' to={`/${prevNext.prev}`} />
+    ) : null;
+
+    return [next, prev];
   }
 
   render() {
+    if (this.state.switchTo) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/${this.state.switchTo}`,
+            state: {
+              autoplay: true
+            }
+          }}
+        />
+      );
+    }
+
     let project = DataStore.getPageBySlug(this.props.slug, 'projects');
-    let quote = project.quote ? (
-      <p className='projectQuote'>{project.quote}</p>
-    ) : null;
-    let video = !!project.oembed ? this.getVideo(project.oembed) : null;
-    let prevNext = DataStore.getPrevNextProjects(this.props.slug);
-    let next = prevNext.next ? (
-      <Link className='arrow arrowRight' to={`/${prevNext.next}`} />
-    ) : null;
-    let prev = prevNext.prev ? (
-      <Link className='arrow arrowLeft' to={`/${prevNext.prev}`} />
-    ) : null;
+    let quote = this.getQuote(project.quote);
+    let video = this.getVideo(project.oembed);
+    let arrows = this.getArrows();
     let flock = DataStore.userAnim ? <Flock img={DataStore.userAnim} /> : null;
 
     return (
       <main>
         {flock}
-        {next}
-        {prev}
+        {arrows}
         <section className='projectSection sectionForest' ref='main'>
           <div className='projectSummary' style={{ zIndex: 9 }}>
             <h1 className='projectTitle'>{project.title}</h1>
@@ -71,6 +94,7 @@ export default class Project extends Component {
         </section>
         <section className='projectSection sectionVideo'>{video}</section>
         <Docs project={project} />
+        <GalleryUI />
       </main>
     );
   }

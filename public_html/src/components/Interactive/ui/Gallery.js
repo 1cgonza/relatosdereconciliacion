@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PhotoSwipe from 'photoswipe';
 import PhotoSwipeUI from 'photoswipe/dist/photoswipe-ui-default';
 
@@ -12,17 +12,17 @@ export default class Docs extends Component {
 
   closest(el, fn) {
     return el && (fn(el) ? el : this.closest(el.parentNode, fn));
-  };
+  }
 
-  onImageClick = (e) => {
+  onImageClick = e => {
     e = e || window.event;
-    e.preventDefault ? e.preventDefault() : e.returnValue = false;
+    e.preventDefault ? e.preventDefault() : (e.returnValue = false);
 
     let eTarget = e.target || e.srcElement;
 
     // find root element of slide
     let clickedListItem = this.closest(eTarget, el => {
-      return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+      return el.tagName && el.tagName.toUpperCase() === 'FIGURE';
     });
 
     if (!clickedListItem) {
@@ -95,50 +95,31 @@ export default class Docs extends Component {
     return items;
   }
 
-  openPhotoSwipe(index, galleryElement, disableAnimation, fromURL) {
-    let pswpElement = this.refs.ui;
-    let gallery;
-    let options;
-    let items;
+  openPhotoSwipe(index, galleryElement) {
+    let pswpElement = document.querySelector('.pswp');
+    let items = this.parseThumbnailElements(galleryElement);
 
-    items = this.parseThumbnailElements(galleryElement);
-    options = {
+    let options = {
       galleryUID: galleryElement.getAttribute('data-pswp-uid'),
-      getThumbBoundsFn: (index) => {
+      getThumbBoundsFn: index => {
         let thumbnail = items[index].el.getElementsByTagName('img')[0]; // find thumbnail
-        let pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
+        let pageYScroll =
+          window.pageYOffset || document.documentElement.scrollTop;
         let rect = thumbnail.getBoundingClientRect();
 
-        return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
+        return { x: rect.left, y: rect.top + pageYScroll, w: rect.width };
       }
     };
 
-    if (fromURL) {
-      if (options.galleryPIDs) {
-        for (let j = 0; j < items.length; j++) {
-          if (items[j].pid == index) {
-            options.index = j;
-            break;
-          }
-        }
-      } else {
-        options.index = parseInt(index, 10) - 1;
-      }
-    } else {
-      options.index = parseInt(index, 10);
-    }
-
+    options.index = parseInt(index, 10);
+    console.log(items);
     if (isNaN(options.index)) {
       return;
     }
 
-    if (disableAnimation) {
-      options.showAnimationDuration = 0;
-    }
-
-    gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI, items, options);
+    const gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI, items, options);
     gallery.init();
-  };
+  }
 
   photoswipeParseHash() {
     let hash = window.location.hash.substring(1);
@@ -165,7 +146,7 @@ export default class Docs extends Component {
     }
 
     return params;
-  };
+  }
 
   buildFromDom(selector) {
     // loop through all gallery elements and bind events
@@ -179,20 +160,37 @@ export default class Docs extends Component {
     let hashData = this.photoswipeParseHash();
 
     if (hashData.pid && hashData.gid) {
-      this.openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
+      this.openPhotoSwipe(
+        hashData.pid,
+        galleryElements[hashData.gid - 1],
+        true,
+        true
+      );
     }
   }
 
   buildItems(items) {
     if (items) {
       let gall = Object.keys(items);
+
       return gall.map(imgID => {
         return (
-          <figure key={imgID} className='galleryImg' itemProp='associatedMedia' itemScope itemType='http://schema.org/ImageObject'>
-            <a href={items[imgID].large} itemProp='contentUrl' data-size={`${items[imgID].w}x${items[imgID].h}`} onClick={this.onImageClick}>
-              <span className='polaroid'></span>
+          <figure
+            key={imgID}
+            className='galleryImg'
+            itemProp='associatedMedia'
+            itemScope
+            itemType='http://schema.org/ImageObject'
+          >
+            <a
+              href={items[imgID].large}
+              itemProp='contentUrl'
+              data-size={`${items[imgID].w}x${items[imgID].h}`}
+              onClick={this.onImageClick}
+            >
+              <span className='polaroid' />
               <img src={items[imgID].medium} itemProp='thumbnail' alt='' />
-              <span className='black'></span>
+              <span className='black' />
             </a>
           </figure>
         );
@@ -200,49 +198,6 @@ export default class Docs extends Component {
     }
 
     return null;
-  }
-
-  buildUI() {
-    return (
-      <div className='pswp' ref='ui' tabIndex='-1' role='dialog' aria-hidden='true'>
-        <div className='pswp__bg'></div>
-        <div className='pswp__scroll-wrap'>
-          <div className='pswp__container'>
-            <div className='pswp__item'></div>
-            <div className='pswp__item'></div>
-            <div className='pswp__item'></div>
-          </div>
-
-          <div className='pswp__ui pswp__ui--hidden'>
-            <div className='pswp__top-bar'>
-              <div className='pswp__counter'></div>
-              <button className='pswp__button pswp__button--close' title='Cerrar (Esc)'></button>
-              <button className='pswp__button pswp__button--share' title='Compartir'></button>
-              <button className='pswp__button pswp__button--zoom' title='Zoom in/out'></button>
-
-              <div className='pswp__preloader'>
-                <div className='pswp__preloader__icn'>
-                  <div className='pswp__preloader__cut'>
-                    <div className='pswp__preloader__donut'></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='pswp__share-modal pswp__share-modal--hidden pswp__single-tap'>
-              <div className='pswp__share-tooltip'></div>
-            </div>
-
-            <button className='pswp__button pswp__button--arrow--left' title='Anterior (izquierda)'></button>
-            <button className='pswp__button pswp__button--arrow--right' title='Siguiente (derecha)'></button>
-
-            <div className='pswp__caption'>
-              <div className='pswp__caption__center'></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   }
 
   componentDidMount() {
@@ -257,12 +212,14 @@ export default class Docs extends Component {
     }
 
     return (
-      <div className='galleryWrapper'>
-        <div className='gallery' itemScope itemType='http://schema.org/ImageGallery'>
-          {this.buildItems(this.props.items)}
-        </div>
-        {this.buildUI()}
+      <div
+        ref='gallery'
+        className='gallery'
+        itemScope
+        itemType='http://schema.org/ImageGallery'
+      >
+        {this.buildItems(this.props.items)}
       </div>
-    )
+    );
   }
 }

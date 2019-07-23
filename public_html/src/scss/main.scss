@@ -5,6 +5,8 @@
 @import 'partials/grid';
 @import 'partials/menu';
 @import 'breakpoints/base';
+@import 'partials/gallerySkin';
+
 @media only screen and (min-width: 768px) {
   @import 'breakpoints/768';
 }

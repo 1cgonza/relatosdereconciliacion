@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Gallery from './ui/Gallery';
 
 export default class Docs extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ export default class Docs extends Component {
     const synosis = this.buildSynopsis(project.synopsis);
     const transcript = this.buildTranscript(project.transcript);
     const gallery = this.buildGallery(project.gallery);
-
+    console.log(project.gallery);
     return (
       <section id='info' className='projectSection sectionDocs'>
         <div className='contentWrapper'>
@@ -63,7 +64,7 @@ export default class Docs extends Component {
           </div>
         </div>
 
-        <div className='gallery'>{gallery}</div>
+        <Gallery items={project.gallery} />
       </section>
     );
   }
