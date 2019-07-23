@@ -40,9 +40,14 @@ function getProjectMeta($object) {
         foreach ($gal as $imgID => $full) {
           $med = wp_get_attachment_image_src($imgID, 'medium');
           $lar = wp_get_attachment_image_src($imgID, 'large');
+          $larMeta = wp_get_attachment_metadata($imgID);
+          $w = $larMeta['sizes']['large']['width'] ? $larMeta['sizes']['large']['width'] : $larMeta['width'];
+          $h = $larMeta['sizes']['large']['height'] ? $larMeta['sizes']['large']['height'] : $larMeta['height'];
           $res[$imgID] = array(
             'medium' => $med[0],
-            'large' => $lar[0]
+            'large' => $lar[0],
+            'w' => $w, 
+            'h' => $h
           );
         }
 
