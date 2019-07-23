@@ -4,6 +4,9 @@ node_modules
 
 # Ignore all wordpress files except for our custom theme
 app/*
+backups/
+conf/
+
 !app/public/
 app/public/*
 !app/public/wp-content/
