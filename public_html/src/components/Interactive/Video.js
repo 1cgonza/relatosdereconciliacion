@@ -1,194 +1,179 @@
 import React, { Component } from 'react';
-import YouTube from 'react-youtube';
-import {
-  sizeFromPercentage,
-  fitElement,
-  getVideoId
-} from '../../utils/helpers';
+import { fitElement, getVideoId } from '../../utils/helpers';
+import Player from './ui/Player';
+import PlayPause from './ui/PlayPause';
 
 export default class Video extends Component {
   constructor(props) {
     super(props);
     this.state = {
       videoReady: false,
-      duration: null,
-      videoTime: 0,
-      d: null,
-      options: null
+      playbackReady: false,
+      duration: 0,
+      onTech: null,
+      onTheme: null,
+      position: null,
+      playing: false
     };
-    this.player = {};
+
+    this.intervalID;
   }
 
-  stateChange = e => {
-    if (e.data === YT.PlayerState.PLAYING) {
+  onResize = () => {
+    if (!this.state.playbackReady) return;
+
+    const dims = fitElement(
+      1280,
+      720,
+      document.body.clientWidth,
+      window.innerHeight
+    );
+
+    this.player.width = `${dims.w}px`;
+    this.player.height = `${dims.h}px`;
+
+    if (this.state.playing) {
+      window.scrollTo({
+        top: this.refs.videoWrapper.offsetHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
     }
   };
 
-  videoReady = e => {
-    this.player = e.target;
-    this.duration = this.player.getDuration();
+  // https://developer.dailymotion.com/player#player-api-events
+  onPlaybackReady = e => {
+    // add play button
+    this.setState({
+      playbackReady: true
+    });
+  };
 
+  onPlay = e => {
+    this.setState({
+      playing: true
+    });
+
+    window.scrollTo({
+      top: this.refs.videoWrapper.offsetHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  onPause = () => {
+    this.setState({
+      playing: false
+    });
+  };
+
+  onLoadedMeta = () => {
     this.setState({
       videoReady: true,
-      duration: this.player.getDuration()
-    });
-
-    this.refs.youtube.internalPlayer.getIframe().then(iframe => {
-      const padLR = sizeFromPercentage(30, window.innerWidth) | 0;
-      const padTB = sizeFromPercentage(20, window.innerHeight) | 0;
-      const newSize = fitElement(
-        1280,
-        720,
-        window.innerWidth - padLR,
-        window.innerHeight - padTB
-      );
-
-      iframe.width = newSize.w;
-      iframe.height = newSize.h;
-      iframe.style.left = `${(window.innerWidth - newSize.w) / 2}px`;
-      //iframe.style.top = `${(window.innerHeight - newSize.h) / 2}px`;
-      iframe.style.opacity = 1;
+      duration: this.player.duration
     });
   };
 
-  getVideoELement() {
-    let video = null;
-
-    if (this.props.videoURL) {
-      const videoOpts = {
-        width: 1280 | 0,
-        height: 720 | 0,
-        playerVars: {
-          // https://developers.google.com/youtube/player_parameters
-          autoplay: 1,
-          controls: 1,
-          enablejsapi: 1,
-          modestbranding: 1,
-          rel: 0
-        }
-      };
-
-      video = (
-        <YouTube
-          ref='youtube'
-          videoId={this.videoID}
-          // className={string}                // defaults -> null
-          opts={videoOpts}
-          onReady={this.videoReady}
-          // onPlay={func}                     // defaults -> noop
-          // onPause={func}                    // defaults -> noop
-          // onEnd={func}                      // defaults -> noop
-          // onError={func}                    // defaults -> noop
-          onStateChange={this.stateChange}
-          // onPlaybackRateChange={func}       // defaults -> noop
-          // onPlaybackQualityChange={func}    // defaults -> noop
-        />
-      );
+  onTimeUpdate = () => {
+    console.log('on time update');
+    if (this.state.position) {
+      if (this.state.position.endTime <= currentTime) {
+      }
+      console.log(currentTime);
     }
+  };
 
-    return video;
-  }
+  getCurrentTime = () => {
+    return this.player.currentTime;
+  };
+
+  updatePosition = position => {
+    this.setState({
+      position: position
+    });
+  };
+
+  seekTo = time => {
+    console.log(time >= this.player.duration);
+    this.player.seek(time);
+  };
+
+  videoScriptLoaded = () => {
+    const dims = fitElement(
+      1280,
+      720,
+      document.body.clientWidth,
+      window.innerHeight
+    );
+
+    this.player = DM.player(this.refs.player, {
+      video: 'xwr14q',
+      width: `${dims.w}px`,
+      height: `${dims.h}px`,
+      params: {
+        autoplay: false,
+        controls: false,
+        quality: '720',
+        'sharing-enable': false,
+        'ui-logo': false,
+        'ui-start-screen-info': false,
+        fullscreen: false,
+        mute: false
+      }
+    });
+
+    this.player.addEventListener('playback_ready', this.onPlaybackReady);
+    this.player.addEventListener('loadedmetadata', this.onLoadedMeta);
+    this.player.addEventListener('play', this.onPlay);
+    this.player.addEventListener('pause', this.onPause);
+    this.player.addEventListener('timeupdate', this.onTimeUpdate);
+    // this.player.addEventListener('controlschange', this.onContolsChange);
+    // this.player.addEventListener('start', this.onVideoStart);
+    // this.player.addEventListener('progress', this.onProgress);
+    // this.player.addEventListener('playing', this.onPlaying);
+    // this.player.addEventListener('waiting', this.onBuffering);
+    // this.player.addEventListener('apiready', this.videoApiReady);
+  };
 
   componentDidMount() {
     this.videoID = getVideoId(this.props.videoURL).id;
 
-    // axios.get('/assets/captions.srt').then(res => {
-    //   let d = parse(res.data);
-    //   let options = [];
+    // Load DailyMotion SDK
+    const dailyMotionS = document.createElement('script');
+    dailyMotionS.async = true;
+    dailyMotionS.src = 'https://api.dmcdn.net/all.js';
+    const siteS = document.getElementsByTagName('script')[0];
+    siteS.parentNode.insertBefore(dailyMotionS, siteS);
+    window.dmAsyncInit = this.videoScriptLoaded;
 
-    //   d.forEach(info => {
-    //     let words = info.text.trim().split(',');
-
-    //     words.forEach(word => {
-    //       let slug = word
-    //         .trim()
-    //         .toLowerCase()
-    //         .replace(/\s/g, '');
-    //       let test = options.findIndex(
-    //         obj => obj.hasOwnProperty('slug') && obj.slug === slug
-    //       );
-
-    //       if (slug) {
-    //         if (test < 0) {
-    //           options.push({ name: word.trim(), slug: slug, d: [info] });
-    //         } else {
-    //           options[test].d.push(info);
-    //         }
-    //       }
-    //     });
-    //   });
-
-    //   this.setState({
-    //     d: d,
-    //     options: options
-    //   });
-    // });
+    window.addEventListener('resize', this.onResize);
   }
 
-  handleMouseEnter = e => {
-    let coords = e.target.getBoundingClientRect();
-    this.refs.tip.style.left = `${coords.x}px`;
-    this.refs.tip.style.top = `${coords.y + 20}px`;
-    this.refs.tip.innerText = e.target.dataset.name;
-    this.refs.tip.classList.add('active');
-  };
+  componentWillUnmount() {
+    this.player.removeEventListener('playback_ready', this.onPlaybackReady);
+    this.player.removeEventListener('loadedmetadata', this.onLoadedMeta);
+    this.player.removeEventListener('play', this.onPlay);
+    this.player.removeEventListener('pause', this.onPause);
+    this.player.removeEventListener('timeupdate', this.onTimeUpdate);
 
-  handleMouseLeave = () => {
-    this.refs.tip.innerText = '';
-    this.refs.tip.classList.remove('active');
-  };
-
-  handleClick = e => {
-    this.player.seekTo(e.target.dataset.start);
-  };
-
-  getTimelineEles() {
-    if (!this.state.d || !this.state.duration) {
-      return null;
-    }
-
-    let h = sizeFromPercentage(18, window.innerHeight) | 0;
-    let w = sizeFromPercentage(90, window.innerWidth) | 0;
-    let stepH = h / this.state.options.length;
-    let stepW = w / (this.state.duration * 1000);
-
-    return this.state.options.map((option, i) => {
-      return option.d.map((node, j) => {
-        return (
-          <span
-            key={option.slug + i + j}
-            className={`timelineEle ${option.slug}`}
-            data-name={option.name}
-            data-start={node.start / 1000}
-            style={{
-              left: node.start * stepW + 'px',
-              top: i * stepH + 'px'
-            }}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-            onClick={this.handleClick}
-          />
-        );
-      });
-    });
+    window.removeEventListener('resize', this.onResize);
   }
 
   render() {
-    if (!this.props.playVideo) {
-      return null;
-    }
-    let timelineEles = this.getTimelineEles();
-
     return (
-      <div className='videoWrapper' ref='videoWrapper'>
-        <span className='close' onClick={this.props.closeVideo}>
-          X
-        </span>
-        {this.getVideoELement()}
-        <div ref='timeline' className='timeline'>
-          <div className='wrapper'>{timelineEles}</div>
-        </div>
-        <div ref='tip' className='tip' />
+      <div id='videoWrapper' ref='videoWrapper'>
+        <div ref='player' />
+        <PlayPause
+          ready={this.state.playbackReady}
+          playing={this.state.playing}
+        />
+        <Player
+          slug={this.props.slug}
+          duration={this.state.duration}
+          seekTo={this.seekTo}
+          getCurrentTime={this.getCurrentTime}
+          updatePosition={this.updatePosition}
+        />
       </div>
     );
   }

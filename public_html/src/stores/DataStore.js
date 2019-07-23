@@ -1,14 +1,10 @@
 import alt from '../alt/alt.js';
 import DataActions from '../actions/DataActions.js';
 import { riverColors } from '../components/Interactive/ui/Colors';
+import { techniquesData, themesData } from '../utils/categories';
 
 class DataStore {
   constructor() {
-    this.data = {};
-    this.techniquesData = [];
-    this.themesData = [];
-    this.c = 0;
-
     this.bindListeners({
       // Listen to the getSuccess() in DataActions.js
       handleSuccess: DataActions.GET_SUCCESS
@@ -36,6 +32,7 @@ class DataStore {
   // Store data returned by getSuccess() in DataActions.js
   handleSuccess(data) {
     let riversLen = riverColors.length;
+
     Object.keys(data.tax).map(key => {
       data.tax[key].map((taxObj, i) => {
         taxObj.color = riverColors[i % riversLen];
@@ -46,8 +43,31 @@ class DataStore {
     let taxRelationship = {};
 
     data.projects.forEach(project => {
-      this.parseSubs(project.techniquesSrt, this.techniquesData, project.slug);
-      this.parseSubs(project.themesSrt, this.themesData, project.slug);
+      let techs = [];
+      let themes = [];
+
+      const techD = this.parseSubs(
+        techniquesData,
+        project.techniquesSrt,
+        project.slug,
+        techs
+      );
+      const themD = this.parseSubs(
+        themesData,
+        project.themesSrt,
+        project.slug,
+        themes
+      );
+
+      project.techniquesSrt = {
+        d: techD,
+        options: techs
+      };
+      project.themesSrt = {
+        d: themD,
+        options: themes
+      };
+
       project.tecnicas.forEach(techniqueId => {
         let key = `tax${techniqueId}`;
         if (!taxRelationship.hasOwnProperty(key)) {
@@ -67,35 +87,55 @@ class DataStore {
     this.setState({ data });
   }
 
-  parseSubs(d, store, name) {
+  parseSubs(typeData, d, name, arr) {
     if (!d) return;
 
-    // const exists = this.playerData.findIndex(obj => obj.hasOwnProperty(''))
-
-    d.forEach(info => {
+    d.forEach((info, i) => {
       let terms = info.text.trim().split(',');
+      d[i].terms = [];
 
       terms.forEach(term => {
         const slug = term
           .trim()
           .toLowerCase()
-          .replace(/\s/g, '');
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
 
-        const test = store.findIndex(
-          obj => obj.hasOwnProperty('slug') && obj.slug === slug
-        );
-
-        this.c++;
-
-        if (slug) {
-          if (test < 0) {
-            store.push({ name: term.trim(), slug: slug, d: [info] });
+        // Normalize data to common slugs
+        const family = typeData.findIndex(obj => {
+          if (obj.slug === slug) {
+            // attach option to project
+            if (arr.indexOf(obj.name) === -1) arr.push(obj.name);
+            // add project to general data
+            d[i].terms.push(obj.name);
+            return true;
           } else {
-            store[test].d.push(info);
+            if (obj.hasOwnProperty('variations')) {
+              if (obj.variations.indexOf(slug) >= 0) {
+                // attach option to project
+                if (arr.indexOf(obj.name) === -1) arr.push(obj.name);
+                // add project to general data
+                d[i].terms.push(obj.name);
+                return true;
+              }
+            }
+          }
+          return false;
+        });
+        // end normalize
+
+        if (family >= 0) {
+          if (typeData[family].projects.indexOf(name) === -1) {
+            typeData[family].projects.push(name);
           }
         }
+
+        delete d[i].text;
       });
     });
+
+    return d;
   }
 
   toggleTaxGlobalState(key, id) {

@@ -141,58 +141,6 @@ export function getVideoId(str) {
 }
 
 /**
- * Get the vimeo id.
- * @param {string} str - the url from which you want to extract the id
- * @returns {string|undefined}
- */
-function vimeo(str) {
-  if (str.indexOf('#') > -1) {
-    str = str.split('#')[0];
-  }
-  if (str.indexOf('?') > -1 && str.indexOf('clip_id=') === -1) {
-    str = str.split('?')[0];
-  }
-
-  var id;
-  var arr;
-
-  const vimeoPipe = [
-    'https?://vimeo.com/[0-9]+$',
-    'https?://player.vimeo.com/video/[0-9]+$',
-    'https?://vimeo.com/channels',
-    'groups',
-    'album'
-  ].join('|');
-
-  const vimeoRegex = new RegExp(vimeoPipe, 'gim');
-
-  if (vimeoRegex.test(str)) {
-    arr = str.split('/');
-    if (arr && arr.length) {
-      id = arr.pop();
-    }
-  } else if (/clip_id=/gim.test(str)) {
-    arr = str.split('clip_id=');
-    if (arr && arr.length) {
-      id = arr[1].split('&')[0];
-    }
-  }
-
-  return id;
-}
-
-/**
- * Get the vine id.
- * @param {string} str - the url from which you want to extract the id
- * @returns {string|undefined}
- */
-function vine(str) {
-  var regex = /https:\/\/vine\.co\/v\/([a-zA-Z0-9]*)\/?/;
-  var matches = regex.exec(str);
-  return matches && matches[1];
-}
-
-/**
  * Get the Youtube Video id.
  * @param {string} str - the url from which you want to extract the id
  * @returns {string|undefined}

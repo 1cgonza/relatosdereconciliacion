@@ -1,5 +1,10 @@
 export const techniquesData = [
-  { name: 'Rotoscopia', slug: 'rotoscopia', projects: [], longest: 0 },
+  {
+    name: 'Rotoscopia',
+    slug: 'rotoscopia',
+    projects: [],
+    longest: 0
+  },
   {
     name: 'Tradicional',
     slug: 'animaciontradicional',
@@ -16,6 +21,7 @@ export const techniquesData = [
   },
   {
     name: 'Mixta',
+    slug: 'mixta',
     projects: [],
     variations: ['tecnicamixta', 'tecnicasmixtas', 'animacionmixta'],
     longest: 0
@@ -62,7 +68,7 @@ export const themesData = [
     longest: 0
   },
   {
-    name: 'Rio',
+    name: 'Río',
     slug: 'rio',
     projects: [],
     variations: ['agua'],
@@ -81,7 +87,7 @@ export const themesData = [
     longest: 0
   },
   {
-    name: 'Raiz',
+    name: 'Raíz',
     slug: 'raiz',
     projects: [],
     longest: 0
