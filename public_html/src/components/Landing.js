@@ -74,11 +74,11 @@ export default class Landing extends Component {
         <div className='landingNav'>
           <div className='landingLogo' />
           <div className='landingLinks'>
-            <Link className='landingLink' to='/largometraje'>
-              Largometraje
-            </Link>
             <Link className='landingLink' to='/interactivo'>
               Interactivo
+            </Link>
+            <Link className='landingLink' to='/sobre'>
+              Sobre el proyecto
             </Link>
           </div>
         </div>

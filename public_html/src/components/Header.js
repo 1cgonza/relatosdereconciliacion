@@ -18,7 +18,7 @@ export default class Header extends Component {
 
   render() {
     const pathname = location.pathname;
-    const showMainMenu = pathname === '/' || pathname === '/largometraje';
+    const showMainMenu = pathname === '/' || pathname === '/sobre';
     const menu = !showMainMenu ? <MainMenu /> : null;
 
     return (
