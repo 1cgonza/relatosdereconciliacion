@@ -107,7 +107,7 @@ export default class Video extends Component {
     );
 
     this.player = DM.player(this.refs.player, {
-      video: 'xwr14q',
+      video: 'k7iU4FjoQRxDxuuf2oK',
       width: `${dims.w}px`,
       height: `${dims.h}px`,
       params: {
@@ -136,8 +136,6 @@ export default class Video extends Component {
   };
 
   componentDidMount() {
-    this.videoID = getVideoId(this.props.videoURL).id;
-
     // Load DailyMotion SDK
     const dailyMotionS = document.createElement('script');
     dailyMotionS.async = true;

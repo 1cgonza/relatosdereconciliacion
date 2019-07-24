@@ -25,12 +25,12 @@ export default class Project extends Component {
     });
   };
 
-  getVideo(url) {
-    if (!url) return null;
+  getVideo(id) {
+    if (!id) return null;
     return (
       <Video
         slug={this.props.slug}
-        videoURL={url}
+        videoID={id}
         switchProject={this.switchProject}
       />
     );
