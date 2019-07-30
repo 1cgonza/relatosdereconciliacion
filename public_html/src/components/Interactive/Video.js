@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fitElement, getVideoId } from '../../utils/helpers';
+import { fitElement } from '../../utils/helpers';
 import Player from './ui/Player';
 import PlayPause from './ui/PlayPause';
 
@@ -76,6 +76,7 @@ export default class Video extends Component {
 
   onTimeUpdate = () => {
     console.log('on time update');
+    this.player.toggleMuted();
     if (this.state.position) {
       if (this.state.position.endTime <= currentTime) {
       }
@@ -107,18 +108,18 @@ export default class Video extends Component {
     );
 
     this.player = DM.player(this.refs.player, {
-      video: 'k7iU4FjoQRxDxuuf2oK',
+      video: this.props.videoID,
       width: `${dims.w}px`,
       height: `${dims.h}px`,
       params: {
-        autoplay: false,
+        autoplay: true,
         controls: false,
         quality: '720',
         'sharing-enable': false,
         'ui-logo': false,
         'ui-start-screen-info': false,
         fullscreen: false,
-        mute: false
+        mute: true
       }
     });
 

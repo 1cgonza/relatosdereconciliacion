@@ -112,7 +112,7 @@ export default class Docs extends Component {
     };
 
     options.index = parseInt(index, 10);
-    console.log(items);
+
     if (isNaN(options.index)) {
       return;
     }

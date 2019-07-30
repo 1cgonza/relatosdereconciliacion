@@ -146,9 +146,12 @@ export default class Project extends Component {
     const projectW = this.refs.timeline.clientWidth / projects.length;
     const projectI = projects.findIndex(proj => proj.slug === this.props.slug);
 
-    this.refs.timelinePos.style.width = `${projectW}px`;
-    this.refs.timelinePos.style.left = `${projectI * projectW +
-      this.refs.timeline.offsetLeft}px`;
+    Object.assign(this.refs.timelinePos.style, {
+      width: `${projectW}px`,
+      left: `${projectI * projectW + this.refs.timeline.offsetLeft}px`
+    });
+
+    console.log(themes.d);
 
     this.setState({
       themeOptions: themes.options,
@@ -172,7 +175,7 @@ export default class Project extends Component {
         <div ref='timelinePos' className='timelinePos' />
         <div ref='timeline' className='timeline' onClick={this.timelineClick}>
           <div ref='progress' className='progress' />
-          <div ref='progress' className='header' />
+          <div ref='header' className='header' />
         </div>
 
         <div className='options' ref='options'>

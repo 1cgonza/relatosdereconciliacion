@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import Painter from './graphics/Painter';
 import {
   Debouncer,
@@ -7,7 +8,6 @@ import {
   getPercent
 } from '../../utils/helpers';
 import { pajaros } from './graphics/sprites';
-import { Route } from 'react-router-dom';
 import DataStore from '../../stores/DataStore';
 
 export default class Drawing extends Component {
