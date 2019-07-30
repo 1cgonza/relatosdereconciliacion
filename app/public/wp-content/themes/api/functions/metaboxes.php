@@ -29,9 +29,9 @@ function relatos_register_mb() {
 
   $meta->add_group_field($video, array(
     'id'   => 'oembed_url',
-    'name' => 'Link al video',
-    'desc' => 'URL de Vimeo o YouTube',
-    'type' => 'oembed'
+    'name' => 'Video ID',
+    'desc' => 'El "Video ID" está al final de la URL. Ejemplo: en la URL https://www.dailymotion.com/video/x7e22cu el ID es: x7e22cu',
+    'type' => 'text'
   ));
 
   $meta->add_group_field($video, array(
