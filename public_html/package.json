@@ -33,12 +33,12 @@
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
-    "react-hot-loader": "^4.12.9",
+    "react-hot-loader": "^4.12.10",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
-    "webpack": "^4.37.0",
-    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack": "^4.38.0",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.3.1"
   }
