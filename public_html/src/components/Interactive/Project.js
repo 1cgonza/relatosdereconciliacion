@@ -25,6 +25,14 @@ export default class Project extends Component {
     });
   };
 
+  onVideoSectionClick = () => {
+      window.scrollTo({
+        top: this.refs.sectionVideo.offsetHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
+  }
+
   getVideo(id) {
     if (!id) return null;
     return (
@@ -92,7 +100,7 @@ export default class Project extends Component {
           <Bosque />
           <RiverColors violenceIds={project.violencia} />
         </section>
-        <section className='projectSection sectionVideo'>{video}</section>
+        <section ref='sectionVideo' className='projectSection sectionVideo' onClick={this.onVideoSectionClick}>{video}</section>
         <Docs project={project} />
         <GalleryUI />
       </main>
