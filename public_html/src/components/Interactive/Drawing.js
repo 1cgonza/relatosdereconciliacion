@@ -8,7 +8,10 @@ import {
   getPercent
 } from '../../utils/helpers';
 import { pajaros } from './graphics/sprites';
+import { fitElement } from '../../utils/helpers';
 import DataStore from '../../stores/DataStore';
+import GIFEncoder from '../../../public/js/GIFEncoder';
+import encode64 from '../../../public/js/b64';
 
 export default class Drawing extends Component {
   constructor(props) {
@@ -25,7 +28,8 @@ export default class Drawing extends Component {
       birdsLoaded: false,
       eraseAll: false,
       play: false,
-      ready: false
+      ready: false,
+      downloading: false
     };
 
     this.debouncer = new Debouncer();
@@ -33,6 +37,7 @@ export default class Drawing extends Component {
 
   onResize = e => {
     this.debouncer.debounce().then(() => {});
+    this.handleFrameSelect({ target: document.querySelector('input[type="radio"][name="frame"]:checked') });
   };
 
   changeWidth = e => this.setState({ lineWidth: e.target.value });
@@ -41,13 +46,32 @@ export default class Drawing extends Component {
   handleBrushClick = e => this.setState({ style: +e.target.value });
   handleFrameSelect = e => this.setState({ frame: e.target.value });
   handleDrawModeClick = e => this.setState({ drawingMode: +e.target.value });
-  handleEraseAllClick = e => this.setState({ eraseAll: true });
-  resetEraseAll = e => this.setState({ eraseAll: false });
+  handleEraseAllClick = e => this.setState({ eraseAll: true }, this.resetEraseAll);
+  resetEraseAll = e => this.setState({ eraseAll: false, ready: false });
 
   playAnimation = e => {
     this.setState({
       play: !this.state.play
     });
+  };
+
+  downloadAnimation = e => {
+    /*if (this.state.frames) {
+      const encoder = new GIFEncoder();
+
+      encoder.setRepeat(0);
+      encoder.setDelay(100);
+      encoder.start();
+
+      this.state.frames?.forEach(frame => 
+        encoder.addFrame(frame.ctx)
+      );
+
+      encoder.finish();
+      encoder.download('mi-relato.gif');
+
+      this.downloading = true;
+    }*/
   };
 
   buildFramesPreview() {
@@ -131,6 +155,8 @@ export default class Drawing extends Component {
         eraseAll={this.state.eraseAll}
         play={this.state.play}
         readyToSend={this.readyToSend}
+        resetEraseAll={this.resetEraseAll}
+        download={this.state.download}
       />
     );
   }
@@ -149,47 +175,74 @@ export default class Drawing extends Component {
     window.removeEventListener('resize', this.onResize);
   }
 
-  handleSend = history => {
-    let frames = this.state.frames;
-    let canvas = document.createElement('canvas');
-    let ctx = canvas.getContext('2d');
-    let w = frames[0].canvas.width;
-    let h = frames[0].canvas.height;
-    canvas.width = w * 4;
-    canvas.height = h * 2;
+  handleSend = e => {
+    if (!this.state.downloading) {
+      const _this = e.target;
+      _this.innerHTML = 'Generando gif...';
 
-    ctx.drawImage(frames[0].canvas, 0, 0);
-    ctx.drawImage(frames[1].canvas, w, 0);
-    ctx.drawImage(frames[2].canvas, w * 2, 0);
-    ctx.drawImage(frames[3].canvas, w * 3, 0);
-    ctx.drawImage(frames[4].canvas, 0, h);
-    ctx.drawImage(frames[5].canvas, w, h);
-    ctx.drawImage(frames[6].canvas, w * 2, h);
-    ctx.drawImage(frames[7].canvas, w * 3, h);
+      this.setState({
+        downloading: true
+      });
 
-    let d = {
-      w: w * 4,
-      h: h * 2,
-      frameW: w,
-      frameH: h,
-      cols: 4,
-      rows: 2,
-      cellOffsetX: w / 2,
-      cellOffsetY: h / 2,
-      framesPerImage: 4,
-      loopEnd: 4 * 4
-    };
+      const encoder = new GIFEncoder();
 
-    canvas.toBlob(blob => {
-      let url = (URL || webkitURL).createObjectURL(blob);
-      let anim = new Image();
-      anim.onload = () => {
-        DataStore.userAnim = anim;
-        DataStore.userAnimD = d;
-        history.push('/');
+      encoder.setRepeat(0);
+      encoder.setDelay(60);
+      encoder.start();
+
+      const bgImage = new Image();
+      bgImage.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+
+          const addFrames = i => {
+            const frame = this.state.frames[i];
+            if (frame) {
+              const canvas = document.createElement('canvas');
+              canvas.width = frame.canvas.width;
+              canvas.height = frame.canvas.height;
+              const ctx = canvas.getContext('2d');
+
+              ctx.fillStyle = "#f0f4f5";
+
+              ctx.drawImage(bgImage, 0, 0, frame.canvas.width, frame.canvas.height);
+
+              ctx.drawImage(img, 0, 0, frame.canvas.width, frame.canvas.height);
+
+              let framePaj = pajaros.frames[i];
+              let dims = fitElement(framePaj.w, framePaj.h, frame.canvas.width, frame.canvas.height);
+
+              ctx.globalAlpha = 0.2;
+
+              //ctx.drawImage(this.birds, framePaj.x + 10, framePaj.y, framePaj.w - 20, framePaj.h, 10, 50, dims.w - 20, dims.h);
+
+              ctx.globalAlpha = 1;
+
+              const dibujo = new Image();
+              dibujo.onload = () => {
+                ctx.drawImage(dibujo, 0, 0, frame.canvas.width, frame.canvas.height);
+                if (encoder.addFrame(ctx)) {
+                  addFrames(i+1);
+                }
+              };
+              dibujo.src = frame.canvas.toDataURL();
+            }
+            else {
+              encoder.finish();
+              encoder.download('mi-relato.gif');
+              _this.innerHTML = 'Descargar gif';
+              this.setState({
+                downloading: false
+              });
+            }
+          };
+
+          addFrames(0);
+        };
+        img.src = '/assets/bg/papel-dibujo.png';
       };
-      anim.src = url;
-    });
+      bgImage.src = '/assets/bg/clean-gray-paper.png';
+    }
   };
 
   getReadyBtn() {
@@ -199,15 +252,13 @@ export default class Drawing extends Component {
 
     return (
       <Route
-        render={({ history }) => (
+        render={() => (
           <span
             className='send'
             type='button'
-            onClick={() => {
-              this.handleSend(history);
-            }}
+            onClick={this.handleSend}
           >
-            Enviar
+            Descargar gif
           </span>
         )}
       />
@@ -222,7 +273,8 @@ export default class Drawing extends Component {
     let hex = rgbToHex(this.state.lineTone) || '#0000';
     let frames = this.buildFramesPreview();
     let painter = this.getPainter();
-    let playPause = !this.state.play ? 'play' : 'pause';
+    let playPause = !this.state.play ? 'Reproducir' : 'Pausar';
+    let playing = this.state.play ? 'yes' : 'no';
     let ready = this.getReadyBtn();
 
     return (
@@ -232,7 +284,7 @@ export default class Drawing extends Component {
       >
         {painter}
 
-        <div className='drawingControls m-100 t-40 d-40 ld-30'>
+        <div className='drawingControls m-100 t-40 d-40 ld-30' style={{marginTop:131}}>
           <div className='controlsControl'>
             <span className='controlsLabel'>Dibujar / Borrar</span>
             <fieldset>
@@ -342,16 +394,20 @@ export default class Drawing extends Component {
           </div>
 
           <div className='controlsControl'>
-            <span className='controlsLabel'>Reproductor</span>
-            <input
+            <span className='controlsLabel'>Vista previa</span>
+            <button
               id='play'
               ref='playPause'
-              name='toneSlider'
+              name='playPause'
               type='button'
-              value={playPause}
               onClick={this.playAnimation}
-            />
+              playing={playing}
+              title={playPause}
+            >
+              <i className="icon-play"></i>
+            </button>
           </div>
+          
           {ready}
         </div>
 

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import DrawingPaper from './DrawingPaper';
-import { getXY, random } from '../../../utils/helpers';
+import { getXY, random, fitElement } from '../../../utils/helpers';
 import Vector from '../../../utils/Vector';
 import { TWO_PI } from '../../../utils/const';
+import { pajaros } from './sprites';
+
 let animReq;
 export default class Painter extends Component {
   constructor(props) {
@@ -20,7 +22,10 @@ export default class Painter extends Component {
 
     this.brushes = [this.brushSimple, this.brushSketch, this.brushSpray];
 
-    this.drawnFrames = [false, false, false, false, false, false, false, false];
+    this.resetDrawnFrames();
+
+    this.birds = new Image();
+    this.birds.src = pajaros.url;
   }
 
   stopDraw = () => {
@@ -160,11 +165,23 @@ export default class Painter extends Component {
     let tick = 0;
 
     this.frames[this.props.frame].canvas.style.display = 'none';
+    document.getElementById('onion').style.display = 'none';
 
     const loop = () => {
       if (tick === 4) {
         f = (f + 1) % 8;
+
         this.ctxO.clearRect(0, 0, this.state.stageW, this.state.stageH);
+
+        /*let framePaj = pajaros.frames[f];
+        let dims = fitElement(framePaj.w, framePaj.h, this.frames[f].canvas.width, this.frames[f].canvas.height);
+
+        this.ctxO.globalAlpha = 0.2;
+
+        this.ctxO.drawImage(this.birds, framePaj.x, framePaj.y, framePaj.w, framePaj.h, 0, 50, dims.w, dims.h);
+
+        this.ctxO.globalAlpha = 1;*/
+
         this.ctxO.drawImage(this.frames[f].canvas, 0, 0);
         tick = 0;
       }
@@ -205,7 +222,12 @@ export default class Painter extends Component {
       let prev = prevProps.frame;
       this.frames[prev].canvas.style.display = 'none';
       this.frames[this.props.frame].canvas.style.display = 'inline-block';
+      document.getElementById('onion').style.display = null;
     }
+  }
+
+  resetDrawnFrames() {
+    this.drawnFrames = [false, false, false, false, false, false, false, false];
   }
 
   render() {
@@ -217,7 +239,8 @@ export default class Painter extends Component {
 
     if (this.ctx) {
       if (this.props.eraseAll) {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.frames.forEach(frame => frame.ctx.clearRect(0, 0, frame.canvas.width, frame.canvas.height));
+        this.resetDrawnFrames();
       }
 
       if (this.props.drawingMode === 1) {
@@ -230,6 +253,8 @@ export default class Painter extends Component {
         this.play();
       } else {
         this.frames[this.props.frame].canvas.style.display = 'inline-block';
+        document.getElementById('onion').style.display = null;
+        this.ctxO.clearRect(0, 0, this.state.stageW, this.state.stageH);
         window.cancelAnimationFrame(animReq);
       }
     }
@@ -239,9 +264,19 @@ export default class Painter extends Component {
         className={`stages ${this.props.grid}`}
         style={{
           width: this.state.stageW,
-          height: this.state.stageH
+          height: this.state.stageH + 131
         }}
       >
+        <div className="header-canvas">
+          Participa
+        </div>
+
+        
+        <div>
+          <p><b>Paso 1.</b>  Dibuja uno por uno los 8 fotogramas de la animación.</p>
+          <p><b>Paso 2.</b> Descarga y compartelo en las redes sociales con el #relatosdereconciliacion.</p>
+        </div>
+
         {canvases}
 
         <canvas

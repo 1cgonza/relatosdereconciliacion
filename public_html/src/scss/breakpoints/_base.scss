@@ -337,6 +337,14 @@ $quoteSize: 80px;
   .stages {
     margin-right: 2em;
   }
+
+  .header-canvas {
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 2px 1px 7px #404040;
+    font-size: 2.2em;
+    margin: 0 0 5px 0;
+  }
 }
 
 .drawingCanvas {
@@ -534,6 +542,49 @@ $quoteSize: 80px;
 
     &.brush3 {
       background-position: -52px 0;
+    }
+  }
+
+  button[type='button']{
+    transition: all ease .2s;
+    &[name='playPause'] {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      vertical-align: top;
+      width: 40px;
+      height: 40px;
+      border: 2px solid #000;
+      border-radius: 50%;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: center;
+
+      > .icon-play {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 0;
+        vertical-align: top;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+      }
+
+      &[playing='no'] > .icon-play {
+        background-image: url(/assets/ui/simpleIconPlay.svg);
+      }
+
+      &[playing='yes'] > .icon-play {
+        background-image: url(/assets/ui/simpleIconPause.svg);
+      }
     }
   }
 
